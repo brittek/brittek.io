@@ -1,0 +1,8 @@
+# robots.txt for brittek.io
+# Allow all crawlers, disallow unfinished /private areas
+
+User-agent: *
+Disallow: /private/
+
+# Sitemap reference
+Sitemap: https://brittek.io/sitemap.xml
