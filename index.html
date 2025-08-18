@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+
+<head>
+	<!-- Meta -->
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1" />
+	<meta name="robots" content="noindex, nofollow" />
+	<meta name="description" content="We’re enhancing our platform to deliver innovative web experiences, AI-driven automation, and premium branding. We’ll be back online shortly." />
+	<meta name="theme-color" content="#0a0a0a" />
+	<meta name="color-scheme" content="dark light" />
+	<title>Brittek Digital — Platform Under Refinement</title>
+
+	<!-- Open Graph / Twitter -->
+	<meta property="og:title" content="Brittek Digital — Platform Under Refinement" />
+	<meta property="og:description" content="We’re enhancing our platform to deliver innovative web experiences, AI-driven automation, and premium branding. We’ll be back online shortly." />
+	<meta property="og:type" content="website" />
+	<meta property="og:locale" content="en_AU" />
+	<meta property="og:image" content="https://framerusercontent.com/images/ZEVAhmjIDjEGmQ3UcG2uFTHjKI.svg" />
+	<meta name="twitter:card" content="summary_large_image" />
+
+	<!-- Icons -->
+	<link rel="icon" href="https://framerusercontent.com/images/ZEVAhmjIDjEGmQ3UcG2uFTHjKI.svg" media="(prefers-color-scheme: light)">
+	<link rel="icon" href="https://framerusercontent.com/images/16UTURqJImdODFtu4Ua3zmfyFI.svg" media="(prefers-color-scheme: dark)">
+	<link rel="apple-touch-icon" href="https://framerusercontent.com/images/ZEVAhmjIDjEGmQ3UcG2uFTHjKI.svg" />
+
+	<!-- Optional external CSS reset/utilities -->
+	<link href="https://assets.codepen.io/9806267/styleteksystem.css" rel="stylesheet" />
+
+	<!-- Fonts: Inter + Manrope -->
+	<link rel="preconnect" href="https://fonts.googleapis.com" />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Manrope:wght@500;600;800&display=swap" rel="stylesheet" />
+
+	<style>
+		/* --------------------------------
+       Fonts + theme variables
+    --------------------------------- */
+		:root {
+			--font-body: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+			--font-headline: 'Manrope', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+			--bg: #0a0a0a;
+			--bg-elev: #121212;
+			--fg: #e6e6e6;
+			--muted: #a6a6a6;
+			--border: #262626;
+			--primary: #FE4A02;
+			/* Brittek Primary */
+			--accent: #ffb188;
+			--grid-ink: #f5f5f5;
+			--grid-ink-soft: #ffffff;
+			/* Safe fallbacks for VS Code theme vars used by loader */
+			--vscode-panel-background: #0a0a0a;
+			--vscode-panel-border: #2a2a2a;
+			--vscode-text-separator-foreground: #6b6b6b;
+			--vscode-foreground: #d0d0d0;
+		}
+
+		/* Base */
+		* { box-sizing: border-box }
+		html, body { height: 100% }
+		body {
+			margin: 0;
+			font-family: var(--font-body);
+			color: var(--fg);
+			background:
+				radial-gradient(1200px 1200px at 70% -10%, rgba(254, 74, 2, .10), transparent 50%),
+				var(--bg);
+			-webkit-font-smoothing: antialiased;
+			text-rendering: optimizeLegibility;
+			overflow: hidden; /* lock to viewport on desktop; re-enable for mobile in media query */
+		}
+		a { color: inherit; text-decoration: none }
+
+		/* Minimal utility shim */
+		.container { max-width: 1200px; width: 100% }
+		.mx-auto { margin-left: auto; margin-right: auto }
+		.flex { display: flex }
+		.justify-between { justify-content: space-between }
+		.items-center { align-items: center }
+		.p-4 { padding: 1rem }
+		.md\:p-6 { padding: 1.5rem }
+		@media (min-width:768px) { .md\:p-6 { padding: 1.5rem } }
+
+		.text-xl { font-size: 1.25rem; line-height: 1.75rem }
+		.md\:text-2xl { font-size: 1.5rem; line-height: 2rem }
+		@media (min-width:768px) { .md\:text-2xl { font-size: 1.5rem; line-height: 2rem } }
+
+		.font-semibold { font-weight: 600 }
+		.font-normal { font-weight: 400 }
+		.tracking-tighter { letter-spacing: -0.02em }
+		.font-headline { font-family: var(--font-headline) }
+
+		/* Page layout */
+		.page {
+			min-height: 100%;
+			display: grid;
+			grid-template-rows: auto 1fr auto;
+			position: relative;
+			isolation: isolate;
+		}
+
+		/* Header */
+		header {
+			position: sticky;
+			top: 0;
+			z-index: 3;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			padding: 12px 20px;
+			background: color-mix(in oklab, var(--bg) 88%, transparent);
+			-webkit-backdrop-filter: saturate(120%) blur(6px);
+			backdrop-filter: saturate(120%) blur(6px);
+			border-bottom: 1px solid var(--border);
+		}
+
+		.brand { display: flex; align-items: center; gap: .75rem; font-weight: 800; letter-spacing: .01em }
+		.brand-mark { position: relative; width: 44px; height: 24px }
+		.dot {
+			position: absolute; top: 50%; width: 14px; height: 14px; border-radius: 999px;
+			background: var(--primary); transform: translateY(-50%); transition: transform .35s ease
+		}
+		.dot-1 { left: 0 }
+		.dot-2 { left: 18px; mix-blend-mode: screen }
+		.brand:hover .dot-1 { transform: translate(-6px, -50%) }
+		.brand:hover .dot-2 { transform: translate(6px, -50%) }
+
+		/* Main */
+		main { position: relative; z-index: 2; display: grid; place-items: center; padding: 6vh 16px 4vh; text-align: center }
+		h1 {
+			font-family: var(--font-headline); font-weight: 800;
+			font-size: clamp(28px, 4.5vw, 48px); line-height: 1.05; margin: 0 0 .5rem;
+			background: linear-gradient(135deg, var(--primary), var(--accent));
+			-webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+		}
+		.lead { font-size: clamp(15px, 1.6vw, 18px); opacity: .98; max-width: 800px; margin: 0 auto 1rem }
+		.micro { font-size: .95rem; color: var(--muted); margin: 0 0 1.5rem }
+
+		/* Social actions */
+		.actions { display: flex; justify-content: center; gap: .75rem; flex-wrap: wrap }
+		.icon-btn {
+			width: 44px; height: 44px; border-radius: 12px; display: inline-grid; place-items: center;
+			background: var(--bg-elev); border: 1px solid var(--border);
+			transition: border-color .2s ease, transform .1s ease; outline: none;
+		}
+		.icon-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px }
+		.icon-btn:hover { border-color: var(--primary); transform: translateY(-1px) }
+		.icon-btn svg { width: 18px; height: 18px; display: block }
+
+		/* Footer */
+		footer {
+			border-top: 1px solid var(--border); display: grid; place-items: center; gap: .5rem;
+			padding: 18px 12px 22px; color: var(--muted); text-align: center; z-index: 2;
+			background: color-mix(in oklab, var(--bg) 92%, transparent);
+		}
+		.urgency { color: var(--fg); font-weight: 600 }
+		.urgency a { color: var(--primary); text-decoration: underline dotted transparent }
+		.urgency a:hover { text-decoration-color: var(--primary) }
+
+		/* Background Slogans Grid */
+		.grid-wrapper {
+			position: absolute; inset: 0; z-index: 1; pointer-events: none; user-select: none;
+			display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; color: var(--grid-ink);
+			opacity: .18; mix-blend-mode: screen; padding: 6rem 1rem 4rem;
+			mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .7) 8%, rgba(0, 0, 0, .9) 50%, rgba(0, 0, 0, .7) 92%, transparent 100%);
+		}
+		.column { display: flex; flex-direction: column; padding: .5rem }
+		.flex-container { display: flex; flex-direction: column; justify-content: space-between; height: 100% }
+		.top-container, .bottom-container { display: flex; justify-content: space-between; gap: .75rem }
+		.top-left, .top-right, .bottom-left, .bottom-right {
+			font-family: var(--font-headline); font-weight: 600;
+			font-size: clamp(.7rem, .8vw, .95rem); line-height: 1.25; max-width: 45%;
+			letter-spacing: .005em; text-wrap: balance;
+			text-shadow: 0 0 1px color-mix(in oklab, var(--grid-ink) 85%, transparent);
+		}
+		.top-right { transform: rotate(90deg) translateY(-8px); transform-origin: left top; opacity: .9 }
+
+		/* Centerpiece Message */
+		.middle-text {
+			position: absolute; inset: 0; display: grid; place-items: center;
+			font-family: var(--font-headline); font-weight: 800; letter-spacing: -.03em;
+			font-size: clamp(48px, 12vw, 180px); color: var(--primary); opacity: .12;
+			text-align: center; text-wrap: balance; line-height: .95;
+			text-shadow: 0 0 18px rgba(254, 74, 2, .07);
+		}
+
+		/* Corner marks */
+		.corner { position: absolute; width: 18px; height: 18px; color: var(--grid-ink-soft); opacity: .85 }
+		.c-top-left { top: 18px; left: 18px; transform: translate(-50%, -50%) }
+		.c-top-right { top: 18px; right: 18px; transform: translate(50%, -50%) rotate(90deg) }
+		.c-bottom-left { bottom: 18px; left: 18px; transform: translate(-50%, 50%) rotate(-90deg) }
+		.c-bottom-right { bottom: 18px; right: 18px; transform: translate(50%, 50%) rotate(180deg) }
+
+		/* Loader (behind content, optional) */
+		.hero-loader-logo {
+			position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);
+			background: var(--vscode-panel-background); width: 192px; height: 192px; z-index: -10;
+			border-radius: 12px; overflow: hidden;
+		}
+		.hero-loader-logo-fill {
+			--shimmer-1: var(--vscode-panel-border);
+			--shimmer-2: var(--vscode-text-separator-foreground);
+			width: 100%; height: 100%;
+			-webkit-mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 192 192" fill="none" stroke-width="1" stroke="white" xmlns="http://www.w3.org/2000/svg"><path d="M28 168c0-6.627 5.373-12 12-12h64c6.628 0 12 5.373 12 12s-5.372 12-12 12H40c-6.627 0-12-5.373-12-12ZM104 132c0-6.627 5.373-12 12-12h12c6.627 0 12 5.373 12 12s-5.373 12-12 12h-12c-6.627 0-12-5.373-12-12ZM56 132c0-6.627 5.372-12 12-12h12c6.627 0 12 5.373 12 12s-5.373 12-12 12H68c-6.628 0-12-5.373-12-12ZM84 96c0-6.627 5.373-12 12-12h28c6.627 0 12 5.373 12 12s-5.373 12-12 12H96c-6.627 0-12-5.373-12-12ZM148 96c0-6.627 5.373-12 12-12 6.628 0 12 5.373 12 12s-5.372 12-12 12c-6.627 0-12-5.373-12-12ZM56 60c0-6.627 5.372-12 12-12h64c6.627 0 12 5.373 12 12s-5.373 12-12 12H68c-6.628 0-12-5.373-12-12ZM64 24c0-6.627 5.373-12 12-12h28c6.628 0 12 5.373 12 12s-5.372 12-12 12H76c-6.627 0-12-5.373-12-12ZM28 24c0-6.627 5.373-12 12-12 6.628 0 12 5.373 12 12s-5.372 12-12 12c-6.627 0-12-5.373-12-12Z"/></svg>');
+			mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 192 192" fill="none" stroke-width="1" stroke="white" xmlns="http://www.w3.org/2000/svg"><path d="M28 168c0-6.627 5.373-12 12-12h64c6.628 0 12 5.373 12 12s-5.372 12-12 12H40c-6.627 0-12-5.373-12-12ZM104 132c0-6.627 5.373-12 12-12h12c6.627 0 12 5.373 12 12s-5.373 12-12 12h-12c-6.627 0-12-5.373-12-12ZM56 132c0-6.627 5.372-12 12-12h12c6.627 0 12 5.373 12 12s-5.373 12-12 12H68c-6.628 0-12-5.373-12-12ZM84 96c0-6.627 5.373-12 12-12h28c6.627 0 12 5.373 12 12s-5.373 12-12 12H96c-6.627 0-12-5.373-12-12ZM148 96c0-6.627 5.373-12 12-12 6.628 0 12 5.373 12 12s-5.372 12-12 12c-6.627 0-12-5.373-12-12ZM56 60c0-6.627 5.372-12 12-12h64c6.627 0 12 5.373 12 12s-5.373 12-12 12H68c-6.628 0-12-5.373-12-12ZM64 24c0-6.627 5.373-12 12-12h28c6.628 0 12 5.373 12 12s-5.372 12-12 12H76c-6.627 0-12-5.373-12-12ZM28 24c0-6.627 5.373-12 12-12 6.628 0 12 5.373 12 12s-5.372 12-12 12c-6.627 0-12-5.373-12-12Z"/></svg>');
+			background: linear-gradient(135deg,
+					transparent 0, transparent 21%,
+					var(--shimmer-2) 22%, var(--shimmer-2) 24%,
+					var(--shimmer-1) 33%, var(--shimmer-1) 61%,
+					var(--shimmer-2) 62%, var(--shimmer-2) 64%,
+					var(--shimmer-1) 73%, var(--shimmer-1) 100%);
+			background-size: 500% 500%;
+			background-position: 50% 50%;
+			background-repeat: no-repeat;
+			animation: hero-loader-shimmer-enter 1.5s ease .5s backwards, hero-loader-shimmer-loading 1.25s ease 1.5s infinite;
+		}
+		body.capra .hero-loader-logo-fill {
+			--shimmer-1: color-mix(in srgb, var(--vscode-foreground) 5%, transparent);
+			--shimmer-2: color-mix(in srgb, var(--vscode-foreground) 12%, transparent);
+		}
+		@keyframes hero-loader-shimmer-enter { from { opacity: 0; transform: scale(.98) } to { opacity: 1; transform: scale(1) } }
+		@keyframes hero-loader-shimmer-loading {
+			0% { background-position: 50% 50% }
+			50% { background-position: 0% 0% }
+			100% { background-position: 50% 50% }
+		}
+
+		/* Noise overlay */
+		#fx-noise { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .35; mix-blend-mode: soft-light }
+
+		/* Responsive */
+		@media (max-width:1024px) {
+			body { overflow: auto }
+			.grid-wrapper { grid-template-columns: 1fr; gap: .5rem; padding: 4rem .5rem 3rem }
+			.top-right { transform: none }
+			.top-left, .top-right, .bottom-left, .bottom-right { max-width: 100% }
+			.middle-text { opacity: .10 }
+		}
+
+		/* Reduced motion */
+		@media (prefers-reduced-motion:reduce) { .dot, .icon-btn { transition: none } }
+	</style>
+
+	<!-- Structured Data (AI-first, multi-entity JSON-LD) -->
+	<script type="application/ld+json">
+	[
+	  {
+	    "@context": "https://schema.org",
+	    "@type": ["Organization","LocalBusiness"],
+	    "@id": "https://brittek.digital/#org",
+	    "name": "Brittek Digital",
+	    "legalName": "Brittek Digital Pty Ltd",
+	    "identifier": "ABN 77 481 837 020",
+	    "url": "https://brittek.digital/",
+	    "logo": "https://framerusercontent.com/images/ZEVAhmjIDjEGmQ3UcG2uFTHjKI.svg",
+	    "image": "https://framerusercontent.com/images/ZEVAhmjIDjEGmQ3UcG2uFTHjKI.svg",
+	    "slogan": "AI automation, premium web, and brand systems — built for growth.",
+	    "founder": { "@type": "Person", "name": "James L. Britton" },
+	    "address": {
+	      "@type": "PostalAddress",
+	      "streetAddress": "Level 35, Tower One, International Towers, 100 Barangaroo Ave",
+	      "addressLocality": "Sydney",
+	      "addressRegion": "NSW",
+	      "postalCode": "2000",
+	      "addressCountry": "AU"
+	    },
+	    "areaServed": ["AU","NZ","US","UK"],
+	    "telephone": "+61 2 8114 4502",
+	    "email": "info@brittek.digital",
+	    "sameAs": [
+	      "https://www.linkedin.com/company/brittek-digital",
+	      "https://x.com/brittekdigital",
+	      "https://github.com/brittek-digital"
+	    ],
+	    "brand": { "@type": "Brand", "name": "Brittek Digital", "color": "#FE4A02" },
+	    "knowsAbout": [
+	      "AI automation","LLM orchestration","Web design","Next.js","Headless CMS",
+	      "Brand identity","Design systems","Shopify","SEO","Performance engineering"
+	    ],
+	    "contactPoint": [
+	      {
+	        "@type": "ContactPoint",
+	        "contactType": "Sales",
+	        "email": "info@brittek.digital",
+	        "telephone": "+61 2 8114 4502",
+	        "areaServed": "AU",
+	        "availableLanguage": ["en"],
+	        "hoursAvailable": {
+	          "@type": "OpeningHoursSpecification",
+	          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+	          "opens": "09:00",
+	          "closes": "18:00"
+	        }
+	      }
+	    ]
+	  },
+	  {
+	    "@context": "https://schema.org",
+	    "@type": "WebSite",
+	    "@id": "https://brittek.digital/#website",
+	    "url": "https://brittek.digital/",
+	    "name": "Brittek Digital",
+	    "inLanguage": "en-AU",
+	    "potentialAction": {
+	      "@type": "SearchAction",
+	      "target": "https://brittek.digital/search?q={query}",
+	      "query-input": "required name=query"
+	    }
+	  },
+	  {
+	    "@context": "https://schema.org",
+	    "@type": "OfferCatalog",
+	    "@id": "https://brittek.digital/#catalog",
+	    "name": "Brittek Digital Core Services",
+	    "url": "https://brittek.digital/services",
+	    "itemListElement": [
+	      {
+	        "@type": "OfferCatalog",
+	        "name": "AI Automation",
+	        "itemListElement": [
+	          {
+	            "@type": "Offer",
+	            "priceCurrency": "AUD",
+	            "url": "https://brittek.digital/services/ai-automation",
+	            "itemOffered": {
+	              "@type": "Service",
+	              "name": "AI Automation & Agents",
+	              "serviceType": "LLM orchestration, workflow automation, RPA",
+	              "provider": { "@id": "https://brittek.digital/#org" },
+	              "areaServed": "Global",
+	              "termsOfService": "https://brittek.digital/terms"
+	            }
+	          }
+	        ]
+	      },
+	      {
+	        "@type": "OfferCatalog",
+	        "name": "Web Design & Development",
+	        "itemListElement": [
+	          {
+	            "@type": "Offer",
+	            "priceCurrency": "AUD",
+	            "url": "https://brittek.digital/services/web",
+	            "itemOffered": {
+	              "@type": "Service",
+	              "name": "Responsive Web & Headless",
+	              "serviceType": "Next.js, performance engineering, accessibility",
+	              "provider": { "@id": "https://brittek.digital/#org" }
+	            }
+	          }
+	        ]
+	      },
+	      {
+	        "@type": "OfferCatalog",
+	        "name": "Brand / Visual Identity",
+	        "itemListElement": [
+	          {
+	            "@type": "Offer",
+	            "priceCurrency": "AUD",
+	            "url": "https://brittek.digital/services/brand",
+	            "itemOffered": {
+	              "@type": "Service",
+	              "name": "Brand & Visual Systems",
+	              "serviceType": "Identity, design systems, guidelines",
+	              "provider": { "@id": "https://brittek.digital/#org" }
+	            }
+	          }
+	        ]
+	      },
+	      {
+	        "@type": "OfferCatalog",
+	        "name": "Software & Technology",
+	        "itemListElement": [
+	          {
+	            "@type": "Offer",
+	            "priceCurrency": "AUD",
+	            "url": "https://brittek.digital/services/software",
+	            "itemOffered": {
+	              "@type": "Service",
+	              "name": "Custom Software",
+	              "serviceType": "Integration, data pipelines, internal tools",
+	              "provider": { "@id": "https://brittek.digital/#org" }
+	            }
+	          }
+	        ]
+	      }
+	    ]
+	  },
+	  {
+	    "@context": "https://schema.org",
+	    "@type": "FAQPage",
+	    "@id": "https://brittek.digital/#faq",
+	    "mainEntity": [
+	      {
+	        "@type": "Question",
+	        "name": "Do you work internationally?",
+	        "acceptedAnswer": {
+	          "@type": "Answer",
+	          "text": "Yes. We deliver remotely across AU/NZ/US/UK and align to your timezone for critical milestones."
+	        }
+	      },
+	      {
+	        "@type": "Question",
+	        "name": "How do you price AI automation?",
+	        "acceptedAnswer": {
+	          "@type": "Answer",
+	          "text": "Discovery sprints, fixed-scope packages, or retainers. Delivery blends fixed outcomes with iterative improvements."
+	        }
+	      }
+	    ]
+	  }
+	]
+	</script>
+</head>
+
+<body>
+	<div class="page">
+		<!-- Background slogans -->
+		<div class="grid-wrapper" aria-hidden="true">
+			<!-- Column 1 -->
+			<div class="column">
+				<div class="flex-container">
+					<div class="top-container">
+						<div class="top-left">Web design isn’t decoration.</div>
+						<div class="top-right">It’s strategy.</div>
+					</div>
+					<div class="bottom-container">
+						<div class="bottom-left">AI is redefining digital.<br />But vision still defines value.</div>
+						<div class="bottom-right">Every pixel has purpose.<br />Every line of code must serve.</div>
+					</div>
+				</div>
+			</div>
+			<!-- Column 2 -->
+			<div class="column">
+				<div class="flex-container">
+					<div class="top-container">
+						<div class="top-left">Adapt. Automate.</div>
+						<div class="top-right">Build systems that scale with you.</div>
+					</div>
+					<div class="bottom-container">
+						<div class="bottom-left">Less friction.<br />More impact.</div>
+						<div class="bottom-right">Human-first experiences.<br />Tech that works quietly.</div>
+					</div>
+				</div>
+			</div>
+			<!-- Column 3 -->
+			<div class="column">
+				<div class="flex-container">
+					<div class="top-container">
+						<div class="top-left">Every project.</div>
+						<div class="top-right">A launchpad for growth.</div>
+					</div>
+					<div class="bottom-container">
+						<div class="bottom-left">Brand is memory.</div>
+						<div class="bottom-right">Design creates it.</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Centerpiece -->
+			<div class="middle-text">
+				<p style="margin:0">The future isn’t coming.<br />We’re already building it.</p>
+
+				<!-- Corners -->
+				<div class="corner c-top-left" aria-hidden="true">
+					<svg width="18" height="18" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="corner">
+						<polygon points="448,224 288,224 288,64 224,64 224,224 64,224 64,288 224,288 224,448 288,448 288,288 448,288" fill="currentColor" />
+					</svg>
+				</div>
+				<div class="corner c-top-right" aria-hidden="true">
+					<svg width="18" height="18" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="corner">
+						<polygon points="448,224 288,224 288,64 224,64 224,224 64,224 64,288 224,288 224,448 288,448 288,288 448,288" fill="currentColor" />
+					svg>
+				</div>
+				<div class="corner c-bottom-left" aria-hidden="true">
+					<svg width="18" height="18" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="corner">
+						<polygon points="448,224 288,224 288,64 224,64 224,224 64,224 64,288 224,288 224,448 288,448 288,288 448,288" fill="currentColor" />
+					</svg>
+				</div>
+				<div class="corner c-bottom-right" aria-hidden="true">
+					<svg width="18" height="18" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="corner">
+						<polygon points="448,224 288,224 288,64 224,64 224,224 64,224 64,288 224,288 224,448 288,448 288,288 448,288" fill="currentColor" />
+					</svg>
+				</div>
+			</div>
+		</div>
+
+		<!-- Header (brand) -->
+		<header role="banner" aria-label="Site header">
+			<a class="brand font-headline" href="/" aria-label="Brittek Digital — Home">
+				<span class="brand-mark" aria-hidden="true">
+					<span class="dot dot-1"></span>
+					<span class="dot dot-2"></span>
+				</span>
+				<span>Brief Interlude.</span>
+			</a>
+			<div aria-hidden="true" style="font-size:.9rem;color:var(--muted)">Sydney, Australia</div>
+		</header>
+
+		<!-- Main -->
+		<main id="content" role="main">
+			<section class="panel" aria-labelledby="status-heading">
+				<h1 id="status-heading">Platform under refinement — not downtime.</h1>
+				<p class="lead">Strategic evolution. Brief interlude. Full functionality resuming.</p>
+				<p class="micro">Enquiries: <a href="mailto:info@brittek.digital">info@brittek.digital</a></p>
+
+				<div class="actions" role="group" aria-label="Social links">
+					<!-- LinkedIn -->
+					<a class="icon-btn" href="https://linkedin.com/company/brittekdigital" target="_blank" rel="noopener" aria-label="LinkedIn">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+							<title>LinkedIn</title>
+							<path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" />
+						</svg>
+					</a>
+
+					<!-- Instagram -->
+					<a class="icon-btn" href="https://instagram.com/brittekdgtl" target="_blank" rel="noopener" aria-label="Instagram">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+							<title>Instagram</title>
+							<path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" />
+						</svg>
+					</a>
+
+					<!-- GitHub -->
+					<a class="icon-btn" href="https://github.com/brittek" target="_blank" rel="noopener" aria-label="GitHub">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+							<title>GitHub</title>
+							<path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z" />
+						</svg>
+					</a>
+
+					<!-- Email -->
+					<a class="icon-btn" href="mailto:info@brittek.digital" aria-label="Email us">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+							<title>Email</title>
+							<path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z" />
+						</svg>
+					</a>
+				</div>
+			</section>
+		</main>
+
+		<!-- Footer -->
+		<footer role="contentinfo">
+			<div>© <span id="year"></span> Brittek Digital · Build Beyond · Sydney, Australia</div>
+			<div class="urgency">For urgency/priority contact: <a href="mailto:jim@brittek.io">jim@brittek.io</a></div>
+
+			<!-- Quick-access footer bar (mirrors contact) -->
+			<div class="container mx-auto flex flex-col md:flex-row justify-between items-center p-4 md:p-6 text-xs md:text-sm" style="padding-top:8px;gap:.5rem;">
+				<span>© <span id="year2"></span> Brittek Digital</span>
+				<p class="micro">Enquiries: <a href="mailto:info@brittek.digital">info@brittek.digital</a></p>
+			</div>
+		</footer>
+	</div>
+
+	<!-- Optional Loader (sits behind content) -->
+	<div class="hero-loader-logo" aria-hidden="true">
+		<div class="hero-loader-logo-fill"></div>
+	</div>
+
+	<!-- SVG noise overlay -->
+	<svg id="fx-noise" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+		<filter id="grain">
+			<feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" stitchTiles="stitch" />
+			<feColorMatrix type="saturate" values="0" />
+			<feComponentTransfer>
+				<feFuncA type="table" tableValues="0 0.6" />
+			</feComponentTransfer>
+		</filter>
+		<rect width="100%" height="100%" filter="url(#grain)"></rect>
+	</svg>
+
+	<script>
+		// Year stamps
+		const y = new Date().getFullYear();
+		document.getElementById('year').textContent = y;
+		document.getElementById('year2').textContent = y;
+		// Ensure noise SVG stretches to viewport
+		const fx = document.getElementById('fx-noise');
+		function sizeNoise() {
+			fx.setAttribute('width', window.innerWidth);
+			fx.setAttribute('height', window.innerHeight);
+			fx.setAttribute('viewBox', `0 0 ${window.innerWidth} ${window.innerHeight}`);
+		}
+		sizeNoise();
+		addEventListener('resize', sizeNoise, { passive: true });
+	</script>
+</body>
+</html>
