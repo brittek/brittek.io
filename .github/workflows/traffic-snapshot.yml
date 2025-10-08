@@ -1,0 +1,55 @@
+name: traffic-snapshot
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    if: ${{ secrets.TRAFFIC_PAT != '' }}
+    runs-on: ubuntu-latest
+    env:
+      TRAFFIC_TOKEN: ${{ secrets.TRAFFIC_PAT }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Configure git credentials
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${TRAFFIC_TOKEN}@github.com/${{ github.repository }}.git
+      - name: Snapshot traffic metrics
+        env:
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if [ -z "${TRAFFIC_TOKEN}" ]; then
+            echo "TRAFFIC_PAT secret is not configured; skipping snapshot." >&2
+            exit 0
+          fi
+          DATE="$(date -u +"%Y-%m-%dT%H-%M-%SZ")"
+          mkdir -p analytics
+          for endpoint in views clones popular/referrers popular/paths; do
+            slug="${endpoint//\//-}"
+            file="analytics/${DATE}-${slug}.json"
+            echo "Fetching ${endpoint} -> ${file}"
+            curl -sSf \
+              -H "Accept: application/vnd.github+json" \
+              -H "Authorization: Bearer ${TRAFFIC_TOKEN}" \
+              -H "X-GitHub-Api-Version: 2022-11-28" \
+              "https://api.github.com/repos/${REPO}/traffic/${endpoint}" | jq '.' > "${file}"
+          done
+          if git status --short | grep -q "."; then
+            git add analytics
+            git commit -m "chore: snapshot traffic ${DATE}"
+            BRANCH="${GITHUB_REF##*/}"
+            git push origin HEAD:"${BRANCH}"
+          else
+            echo "No changes to commit"
+          fi

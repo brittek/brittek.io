@@ -1,10 +1,23 @@
 <!-- Logo -->
 <p align="center">
-  <img src="https://assets.codepen.io/9806267/2%400.5x.png" alt="Brittek Digital Monogram" width="180" height="180" />
+  <img
+    src="https://assets.codepen.io/9806267/2_5.png"
+    alt="Brittek Digital Logo"
+    width="200"
+    height="auto"
+    loading="eager"
+    style="margin-bottom: 1rem;"
+  />
 </p>
 
 <h1 align="center">brittek.io</h1>
 <p align="center"><strong>Brittek Digital — Website front-end, AI-first structured data, and deployment artefacts.</strong></p>
+
+> ⚠️ Official Repository — Brittek I/O
+> This is the **only** canonical source for the Brittek I/O maintenance site.
+> • Website: https://brittek.io
+> • Verified domain(s): brittek.io
+> • No redistribution / rebranding without written consent
 
 ---
 
