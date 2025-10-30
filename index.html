@@ -6,14 +6,14 @@
 	<meta charset="UTF-8" />
 	<meta name="viewport" content="width=device-width,initial-scale=1" />
 	<meta name="robots" content="noindex, nofollow" />
-	<meta name="description" content="We’re enhancing our platform to deliver innovative web experiences, AI-driven automation, and premium branding. We’ll be back online shortly." />
+	<meta name="description" content="Brittek Digital is upgrading our platform: leaner architecture, sharper UX, and automation that drives outcomes. Back online shortly—contact info@brittek.digital." />
 	<meta name="theme-color" content="#0a0a0a" />
 	<meta name="color-scheme" content="dark light" />
 	<title>Brittek Digital — Platform Under Refinement</title>
 
 	<!-- Open Graph / Twitter -->
 	<meta property="og:title" content="Brittek Digital — Platform Under Refinement" />
-	<meta property="og:description" content="We’re enhancing our platform to deliver innovative web experiences, AI-driven automation, and premium branding. We’ll be back online shortly." />
+	<meta property="og:description" content="Leaner architecture. Sharper UX. Automation that moves the needle. Back online shortly—contact info@brittek.digital." />
 	<meta property="og:type" content="website" />
 	<meta property="og:locale" content="en_AU" />
 	<meta property="og:image" content="https://assets.codepen.io/9806267/2_5.png" />
@@ -91,7 +91,6 @@
 			font-family: var(--font-headline);
 		}
 
-		/* Focus visibility for a11y */
 		:focus {
 			outline: none;
 		}
@@ -204,7 +203,7 @@
 			gap: 1rem;
 		}
 
-		/* Items (now interactive buttons, not links) */
+		/* Items (interactive buttons; have optional accordion detail) */
 		.modal-item {
 			width: 100%;
 			text-align: left;
@@ -246,7 +245,7 @@
 			color: var(--primary);
 		}
 
-		/* Accordion content that expands under each item */
+		/* Accordion content */
 		.accordion-content {
 			max-height: 0;
 			overflow: hidden;
@@ -265,21 +264,49 @@
 			line-height: 1.55;
 		}
 
-		/* Expanded state controlled by aria-expanded + JS */
 		.accordion-trigger[aria-expanded="true"]+.accordion-content {
-			max-height: 240px;
-			/* ample for 2–3 lines */
+			max-height: 260px;
 			opacity: 1;
 			padding-top: .75rem;
 		}
 
-		/* Desktop hover also expands (progressive enhancement) */
 		@media (hover: hover) and (pointer: fine) {
 			.accordion-trigger:hover+.accordion-content {
-				max-height: 240px;
+				max-height: 260px;
 				opacity: 1;
 				padding-top: .75rem;
 			}
+		}
+
+		/* Inline action buttons inside accordion */
+		.inline-actions {
+			display: flex;
+			flex-wrap: wrap;
+			gap: .5rem;
+			margin-top: .5rem;
+		}
+
+		.btn {
+			appearance: none;
+			border: 1px solid var(--border);
+			background: #1a1a1a;
+			color: var(--fg);
+			padding: .5rem .75rem;
+			border-radius: .5rem;
+			font-size: .875rem;
+			font-weight: 700;
+			letter-spacing: .04em;
+			cursor: pointer;
+			transition: border-color .2s ease, background-color .2s ease, transform .1s ease;
+		}
+
+		.btn:hover {
+			border-color: var(--primary);
+			background: #222;
+		}
+
+		.btn:active {
+			transform: translateY(1px);
 		}
 
 		/* ------------------------------- Main stage -------------------------------- */
@@ -471,7 +498,7 @@
 			position: absolute;
 			bottom: 4rem;
 			left: 2rem;
-			max-width: 36rem;
+			max-width: 40rem;
 		}
 
 		.bottom-text h2 {
@@ -684,13 +711,8 @@
 
 	<div class="container" id="root">
 		<!-- Top Navigation -->
-		<button class="nav-button left" id="menuButton" type="button" aria-haspopup="dialog" aria-controls="menuModal" aria-expanded="false">
-			Menu
-		</button>
-
-		<button class="nav-button right" id="shareButton" type="button" aria-haspopup="dialog" aria-controls="shareModal" aria-expanded="false">
-			Share
-		</button>
+		<button class="nav-button left" id="menuButton" type="button" aria-haspopup="dialog" aria-controls="menuModal" aria-expanded="false">Menu</button>
+		<button class="nav-button right" id="shareButton" type="button" aria-haspopup="dialog" aria-controls="shareModal" aria-expanded="false">Share</button>
 
 		<!-- Share Modal -->
 		<div id="shareModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="shareTitle" aria-hidden="true">
@@ -699,37 +721,60 @@
 					<h2 id="shareTitle" class="modal-title font-head">Share</h2>
 					<button class="close-button" type="button" data-close="shareModal" aria-label="Close share dialog">✕</button>
 				</div>
+
+				<!-- Quick row (native share if available) -->
+				<div class="inline-actions" style="margin:0 0 1rem 0;">
+					<button id="btnWebShare" class="btn" type="button" hidden>System Share</button>
+					<button id="btnCopyLinkTop" class="btn" type="button">Copy Link</button>
+				</div>
+
 				<div class="modal-list">
+					<!-- X -->
 					<button class="modal-item accordion-trigger" type="button" aria-expanded="false" aria-controls="share-x">
 						<h3>X (Twitter)</h3>
 						<p>Post the current page</p>
 					</button>
 					<div id="share-x" class="accordion-content" hidden>
 						<p>Open an X share dialog pre-filled with the current page title and URL.</p>
+						<div class="inline-actions">
+							<button id="btnShareX" class="btn" type="button" aria-label="Share to X">Share to X</button>
+						</div>
 					</div>
 
+					<!-- LinkedIn -->
 					<button class="modal-item accordion-trigger" type="button" aria-expanded="false" aria-controls="share-li">
 						<h3>LinkedIn</h3>
 						<p>Share professionally</p>
 					</button>
 					<div id="share-li" class="accordion-content" hidden>
-						<p>Share this page on your LinkedIn feed to reach your professional network.</p>
+						<p>Publish to your LinkedIn feed to reach your professional network.</p>
+						<div class="inline-actions">
+							<button id="btnShareLinkedIn" class="btn" type="button" aria-label="Share to LinkedIn">Share to LinkedIn</button>
+						</div>
 					</div>
 
+					<!-- Facebook -->
 					<button class="modal-item accordion-trigger" type="button" aria-expanded="false" aria-controls="share-fb">
 						<h3>Facebook</h3>
 						<p>Share socially</p>
 					</button>
 					<div id="share-fb" class="accordion-content" hidden>
-						<p>Publish the link to your Facebook timeline or share via Messenger.</p>
+						<p>Publish the link to your Facebook timeline or send via Messenger.</p>
+						<div class="inline-actions">
+							<button id="btnShareFacebook" class="btn" type="button" aria-label="Share to Facebook">Share to Facebook</button>
+						</div>
 					</div>
 
+					<!-- Copy -->
 					<button class="modal-item accordion-trigger" type="button" aria-expanded="false" aria-controls="share-copy">
 						<h3>Copy Link</h3>
 						<p>Copy the direct URL</p>
 					</button>
 					<div id="share-copy" class="accordion-content" hidden>
 						<p>Copies the page URL to your clipboard for quick pasting anywhere.</p>
+						<div class="inline-actions">
+							<button id="btnCopyLink" class="btn" type="button" aria-label="Copy link">Copy URL</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -759,7 +804,7 @@
 						<p>Web design, AI automation, custom software</p>
 					</button>
 					<div id="acc-services" class="accordion-content" hidden role="region" aria-label="Services details">
-						<p>End-to-end delivery: responsive design, Next.js/TypeScript builds, AI workflows and RPA, brand/visual identity, integrations, and scalable platforms engineered for speed and security.</p>
+						<p>End-to-end delivery: responsive design, Next.js/TypeScript builds, AI workflows & RPA, visual identity, integrations, and scalable platforms engineered for speed and security.</p>
 					</div>
 
 					<!-- PROJECTS -->
@@ -768,7 +813,7 @@
 						<p>Case studies and portfolio work</p>
 					</button>
 					<div id="acc-projects" class="accordion-content" hidden role="region" aria-label="Projects details">
-						<p>A selection of high-performance sites, automation deployments, and identity systems — benchmarked, measured, and iterated for real-world results.</p>
+						<p>High-performance sites, automation deployments, and identity systems — benchmarked, measured, and iterated for real results.</p>
 					</div>
 
 					<!-- INSIGHTS -->
@@ -777,7 +822,7 @@
 						<p>Technical articles and industry perspectives</p>
 					</button>
 					<div id="acc-insights" class="accordion-content" hidden role="region" aria-label="Insights details">
-						<p>Written for operators: SOPs, playbooks, optimization guides, and hard data from the field — no fluff, just what ships.</p>
+						<p>SOPs, playbooks, optimisation guides, and hard data from the field — no fluff, just what ships.</p>
 					</div>
 
 					<!-- CONTACT -->
@@ -879,18 +924,15 @@
 			<div class="x-mark top" aria-hidden="true">✕✕</div>
 			<div class="x-mark bottom" aria-hidden="true">✕✕</div>
 
-			<div class="digital-label" aria-hidden="true">
-				<span>Digital</span>
-			</div>
-
+			<div class="digital-label" aria-hidden="true"><span>Digital</span></div>
 			<div class="dotted-line line-1" aria-hidden="true"></div>
 			<div class="dotted-line line-2" aria-hidden="true"></div>
 		</main>
 
 		<!-- Bottom Left Text -->
 		<section class="bottom-text" id="about" aria-label="Brittek mission statement">
-			<h2 class="font-head">Where Tech Meets Truth</h2>
-			<p>We’re enhancing our platform to deliver innovative web experiences, AI-driven automation, and premium branding. We’ll be back online shortly.</p>
+			<h2 class="font-head">Build Right. Ship Faster.</h2>
+			<p>We’re refactoring the platform for speed, clarity, and control: lean architecture, cleaner UX, and automation that actually moves the needle. Back online soon. Need something now? <strong>info@brittek.digital</strong>.</p>
 		</section>
 
 		<!-- Portfolio Grid -->
@@ -928,10 +970,7 @@
 		const shareModal = $("#shareModal");
 		// Focus trap
 		function trapFocus(modal) {
-			const focusable = $$(
-				'a[href], area[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
-				modal
-			);
+			const focusable = $$('a[href], area[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])', modal);
 			if (focusable.length === 0) return () => {};
 			const first = focusable[0];
 			const last = focusable[focusable.length - 1];
@@ -957,10 +996,7 @@
 			modal.removeAttribute("aria-hidden");
 			triggerBtn?.setAttribute("aria-expanded", "true");
 			body.classList.add("no-scroll");
-			const focusable = $$(
-				'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
-				modal
-			).filter(el => !el.hasAttribute("disabled"));
+			const focusable = $$('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])', modal).filter(el => !el.hasAttribute("disabled"));
 			(focusable[0] || modal).focus();
 			releaseFocus = trapFocus(modal);
 		}
@@ -976,17 +1012,15 @@
 		}
 		// Toggle handlers
 		menuButton.addEventListener("click", () => {
-			if (menuModal.classList.contains("active")) {
-				closeModal(menuModal, menuButton);
-			} else {
+			if (menuModal.classList.contains("active")) closeModal(menuModal, menuButton);
+			else {
 				if (shareModal.classList.contains("active")) closeModal(shareModal, shareButton);
 				openModal(menuModal, menuButton);
 			}
 		});
 		shareButton.addEventListener("click", () => {
-			if (shareModal.classList.contains("active")) {
-				closeModal(shareModal, shareButton);
-			} else {
+			if (shareModal.classList.contains("active")) closeModal(shareModal, shareButton);
+			else {
 				if (menuModal.classList.contains("active")) closeModal(menuModal, menuButton);
 				openModal(shareModal, shareButton);
 			}
@@ -1016,7 +1050,7 @@
 				if (shareModal.classList.contains("active")) closeModal(shareModal, shareButton);
 			}
 		});
-		// -------- Accordion behaviour (mobile tap; desktop click/hover) --------
+		// -------- Accordion behaviour --------
 		const isDesktop = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
 		const triggers = $$(".accordion-trigger");
 
@@ -1027,28 +1061,26 @@
 				content.hidden = !expanded;
 			}
 		}
-		// Ensure all contents are initially hidden
+		// Initialise hidden
 		triggers.forEach(t => {
 			const c = t.nextElementSibling;
 			if (c && c.classList.contains("accordion-content")) c.hidden = true;
 		});
-		// Click toggles on all devices
+		// Click toggles (single-open)
 		triggers.forEach(trigger => {
 			trigger.addEventListener("click", () => {
 				const expanded = trigger.getAttribute("aria-expanded") === "true";
-				// Close others (accordion single-open) — optional. Comment out to allow multi-open.
 				triggers.forEach(t => {
 					if (t !== trigger) setExpanded(t, false);
 				});
 				setExpanded(trigger, !expanded);
 			});
 		});
-		// Desktop hover: open on mouseenter, close on mouseleave
+		// Desktop hover open/close
 		if (isDesktop) {
 			triggers.forEach(trigger => {
 				trigger.addEventListener("mouseenter", () => setExpanded(trigger, true));
 				trigger.addEventListener("mouseleave", () => setExpanded(trigger, false));
-				// Also collapse when mouse leaves the content area
 				const content = trigger.nextElementSibling;
 				if (content && content.classList.contains("accordion-content")) {
 					content.addEventListener("mouseleave", () => setExpanded(trigger, false));
@@ -1056,28 +1088,62 @@
 				}
 			});
 		}
-		// -------- Share actions --------
+		// -------- Share actions (external + native) --------
+		const openPopup = (url) => {
+			window.open(url, "_blank", "noopener,noreferrer,width=700,height=600");
+		};
+		const getEncoded = () => ({
+			url: encodeURIComponent(location.href),
+			text: encodeURIComponent(document.title)
+		});
+		// Native Share availability
+		const webShareBtn = $("#btnWebShare");
+		if (navigator.share) {
+			webShareBtn.hidden = false;
+			webShareBtn.addEventListener("click", async () => {
+				try {
+					await navigator.share({
+						title: document.title,
+						url: location.href
+					});
+				} catch (e) {
+					// User cancelled or not allowed — no-op
+				}
+			});
+		}
+		// X
 		$("#btnShareX")?.addEventListener("click", () => {
-			const url = encodeURIComponent(location.href);
-			const text = encodeURIComponent(document.title);
-			window.open(`https://x.com/intent/tweet?url=${url}&text=${text}`, "_blank", "noopener");
+			const {
+				url,
+				text
+			} = getEncoded();
+			openPopup(`https://x.com/intent/tweet?url=${url}&text=${text}`);
 		});
+		// LinkedIn
 		$("#btnShareLinkedIn")?.addEventListener("click", () => {
-			const url = encodeURIComponent(location.href);
-			window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, "_blank", "noopener");
+			const {
+				url
+			} = getEncoded();
+			openPopup(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`);
 		});
+		// Facebook
 		$("#btnShareFacebook")?.addEventListener("click", () => {
-			const url = encodeURIComponent(location.href);
-			window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, "_blank", "noopener");
+			const {
+				url
+			} = getEncoded();
+			openPopup(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
 		});
-		$("#btnCopyLink")?.addEventListener("click", async () => {
+		// Copy
+		async function copyLink() {
 			try {
 				await navigator.clipboard.writeText(location.href);
 				alert("Link copied to clipboard!");
 			} catch (err) {
 				console.error("Failed to copy link:", err);
 			}
-		});
+		}
+		$("#btnCopyLink")?.addEventListener("click", copyLink);
+		$("#btnCopyLinkTop")?.addEventListener("click", copyLink);
 	</script>
 </body>
 
