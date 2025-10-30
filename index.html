@@ -16,12 +16,12 @@
 	<meta property="og:description" content="We’re enhancing our platform to deliver innovative web experiences, AI-driven automation, and premium branding. We’ll be back online shortly." />
 	<meta property="og:type" content="website" />
 	<meta property="og:locale" content="en_AU" />
-        <meta property="og:image" content="https://assets.codepen.io/9806267/2_5.png" />
+	<meta property="og:image" content="https://assets.codepen.io/9806267/2_5.png" />
 	<meta name="twitter:card" content="summary_large_image" />
 
 	<!-- Icons -->
-        <link rel="icon" href="https://assets.codepen.io/9806267/2_5.png">
-        <link rel="apple-touch-icon" href="https://assets.codepen.io/9806267/2_5.png" />
+	<link rel="icon" href="https://assets.codepen.io/9806267/2_5.png">
+	<link rel="apple-touch-icon" href="https://assets.codepen.io/9806267/2_5.png" />
 
 	<!-- Optional external CSS reset/utilities -->
 	<link href="https://assets.codepen.io/9806267/styleteksystem.css" rel="stylesheet" />
@@ -32,12 +32,11 @@
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Manrope:wght@500;600;800&display=swap" rel="stylesheet" />
 
 	<style>
-		/* --------------------------------
-       Fonts + theme variables
-    --------------------------------- */
+		/* ------------------------------- Fonts + theme variables -------------------------------- */
 		:root {
 			--font-body: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 			--font-headline: 'Manrope', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+			/* Dark theme tokens */
 			--bg: #0a0a0a;
 			--bg-elev: #121212;
 			--fg: #e6e6e6;
@@ -45,560 +44,1041 @@
 			--border: #262626;
 			--primary: #FE4A02;
 			/* Brittek Primary */
-			--accent: #ffb188;
+			--accent: #694E47;
+			/* Brittek Accent */
 			--grid-ink: #f5f5f5;
 			--grid-ink-soft: #ffffff;
-			/* Safe fallbacks for VS Code theme vars used by loader */
+			/* VS Code theme fallbacks used by loader(s) */
 			--vscode-panel-background: #0a0a0a;
 			--vscode-panel-border: #2a2a2a;
 			--vscode-text-separator-foreground: #6b6b6b;
 			--vscode-foreground: #d0d0d0;
+			/* Legacy neutrals (mapped to dark) */
+			--gray-900: #e8e8e8;
+			--gray-800: #cfcfcf;
+			--gray-700: #b6b6b6;
+			--gray-600: #9d9d9d;
+			--gray-500: #868686;
+			--gray-400: #6f6f6f;
+			--gray-300: #595959;
+			--gray-100: #1a1a1a;
 		}
 
-		/* Base */
-		* { box-sizing: border-box }
-		html, body { height: 100% }
+		/* ------------------------------- Base & reset -------------------------------- */
+		*,
+		*::before,
+		*::after {
+			box-sizing: border-box;
+		}
+
+		html,
+		body {
+			height: 100%;
+		}
+
 		body {
 			margin: 0;
-			font-family: var(--font-body);
+			background: var(--bg);
 			color: var(--fg);
-			background:
-				radial-gradient(1200px 1200px at 70% -10%, rgba(254, 74, 2, .10), transparent 50%),
-				var(--bg);
+			font-family: var(--font-body);
 			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
 			text-rendering: optimizeLegibility;
-			overflow: hidden; /* lock to viewport on desktop; re-enable for mobile in media query */
+			overflow-x: hidden;
 		}
-		a { color: inherit; text-decoration: none }
 
-		/* Minimal utility shim */
-		.container { max-width: 1200px; width: 100% }
-		.mx-auto { margin-left: auto; margin-right: auto }
-		.flex { display: flex }
-		.justify-between { justify-content: space-between }
-		.items-center { align-items: center }
-		.p-4 { padding: 1rem }
-		.md\:p-6 { padding: 1.5rem }
-		@media (min-width:768px) { .md\:p-6 { padding: 1.5rem } }
+		.font-head {
+			font-family: var(--font-headline);
+		}
 
-		.text-xl { font-size: 1.25rem; line-height: 1.75rem }
-		.md\:text-2xl { font-size: 1.5rem; line-height: 2rem }
-		@media (min-width:768px) { .md\:text-2xl { font-size: 1.5rem; line-height: 2rem } }
+		/* Focus visibility for a11y */
+		:focus {
+			outline: none;
+		}
 
-		.font-semibold { font-weight: 600 }
-		.font-normal { font-weight: 400 }
-		.tracking-tighter { letter-spacing: -0.02em }
-		.font-headline { font-family: var(--font-headline) }
+		:focus-visible {
+			outline: 3px solid #0b5fff;
+			outline-offset: 2px;
+			border-radius: 4px;
+		}
 
-		/* Page layout */
-		.page {
-			min-height: 100%;
-			display: grid;
-			grid-template-rows: auto 1fr auto;
+		.container {
 			position: relative;
-			isolation: isolate;
+			width: 100%;
+			min-height: 100vh;
+			overflow: hidden;
 		}
 
-		/* Header */
-		header {
-			position: sticky;
-			top: 0;
-			z-index: 3;
+		/* ------------------------------- Navigation buttons -------------------------------- */
+		.nav-button {
+			position: absolute;
+			top: 2rem;
+			z-index: 40;
+			background: transparent;
+			border: 1px solid transparent;
+			color: var(--muted);
+			font-size: .875rem;
+			font-weight: 700;
+			letter-spacing: .12em;
+			padding: .55rem .9rem;
+			cursor: pointer;
+			transition: color .25s ease, border-color .25s ease, background-color .25s ease, transform .15s ease;
+			text-transform: uppercase;
+		}
+
+		.nav-button:hover {
+			color: var(--primary);
+		}
+
+		.nav-button:active {
+			transform: translateY(1px);
+		}
+
+		.nav-button.left {
+			left: 2rem;
+		}
+
+		.nav-button.right {
+			right: 2rem;
+		}
+
+		/* ------------------------------- Modals -------------------------------- */
+		.modal {
+			display: none;
+			position: fixed;
+			inset: 0;
+			background: color-mix(in oklab, var(--bg) 92%, black 8%);
+			-webkit-backdrop-filter: blur(8px);
+			backdrop-filter: blur(8px);
+			z-index: 50;
+			align-items: center;
+			justify-content: center;
+			padding: 2rem;
+		}
+
+		.modal.active {
+			display: flex;
+		}
+
+		.modal-content {
+			max-width: 42rem;
+			width: 100%;
+			padding: 0 1rem 2rem 1rem;
+		}
+
+		.modal-header {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
-			padding: 12px 20px;
-			background: color-mix(in oklab, var(--bg) 88%, transparent);
-			-webkit-backdrop-filter: saturate(120%) blur(6px);
-			backdrop-filter: saturate(120%) blur(6px);
+			margin-bottom: 2rem;
 			border-bottom: 1px solid var(--border);
+			padding-bottom: 1rem;
 		}
 
-                .brand {
-                        display: flex;
-                        align-items: center;
-                        gap: .75rem;
-                        font-weight: 800;
-                        letter-spacing: .01em;
-                        color: var(--fg);
-                }
-                .brand-logo {
-                        height: 38px;
-                        width: auto;
-                        display: block;
-                        border-radius: 12px;
-                        box-shadow: 0 4px 18px rgba(254, 74, 2, 0.25);
-                }
-                @media (min-width:768px) {
-                        .brand-logo { height: 44px }
-                }
-
-		/* Main */
-		main { position: relative; z-index: 2; display: grid; place-items: center; padding: 6vh 16px 4vh; text-align: center }
-		h1 {
-			font-family: var(--font-headline); font-weight: 800;
-			font-size: clamp(28px, 4.5vw, 48px); line-height: 1.05; margin: 0 0 .5rem;
-			background: linear-gradient(135deg, var(--primary), var(--accent));
-			-webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+		.modal-title {
+			font-size: 1.5rem;
+			font-weight: 800;
+			letter-spacing: .08em;
+			text-transform: uppercase;
 		}
-		.lead { font-size: clamp(15px, 1.6vw, 18px); opacity: .98; max-width: 800px; margin: 0 auto 1rem }
-		.micro { font-size: .95rem; color: var(--muted); margin: 0 0 1.5rem }
 
-		/* Social actions */
-		.actions { display: flex; justify-content: center; gap: .75rem; flex-wrap: wrap }
-		.icon-btn {
-			width: 44px; height: 44px; border-radius: 12px; display: inline-grid; place-items: center;
-			background: var(--bg-elev); border: 1px solid var(--border);
-			transition: border-color .2s ease, transform .1s ease; outline: none;
+		.close-button {
+			background: transparent;
+			border: 0;
+			color: var(--muted);
+			font-size: 1.5rem;
+			line-height: 1;
+			cursor: pointer;
+			padding: .25rem .5rem;
+			border-radius: 6px;
+			transition: color .2s ease, background-color .2s ease;
 		}
-		.icon-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px }
-		.icon-btn:hover { border-color: var(--primary); transform: translateY(-1px) }
-		.icon-btn svg { width: 18px; height: 18px; display: block }
+
+		.close-button:hover {
+			color: var(--primary);
+			background: rgba(255, 255, 255, .04);
+		}
+
+		.modal-list {
+			display: grid;
+			gap: 1rem;
+		}
+
+		/* Items (now interactive buttons, not links) */
+		.modal-item {
+			width: 100%;
+			text-align: left;
+			background: var(--bg-elev);
+			border: 1px solid var(--border);
+			padding: 1rem 1rem 1.25rem;
+			cursor: pointer;
+			transition: border-color .25s ease, transform .15s ease, box-shadow .25s ease, background-color .25s ease;
+			border-radius: 12px;
+			color: var(--fg);
+			display: block;
+		}
+
+		.modal-item:hover {
+			border-color: var(--primary);
+			transform: translateY(-1px);
+			box-shadow: 0 10px 24px rgba(0, 0, 0, .30);
+			background: color-mix(in oklab, var(--bg-elev) 92%, white 8%);
+		}
+
+		.modal-item h3 {
+			font-family: var(--font-headline);
+			font-size: 1rem;
+			font-weight: 800;
+			letter-spacing: .06em;
+			margin: 0 0 .25rem 0;
+			text-transform: uppercase;
+			transition: color .25s ease;
+		}
+
+		.modal-item p {
+			color: var(--muted);
+			font-size: .92rem;
+			letter-spacing: .02em;
+			margin: 0;
+		}
+
+		.modal-item:hover h3 {
+			color: var(--primary);
+		}
+
+		/* Accordion content that expands under each item */
+		.accordion-content {
+			max-height: 0;
+			overflow: hidden;
+			opacity: 0;
+			transition: max-height .28s ease, opacity .28s ease, padding-top .28s ease;
+			border-left: 1px solid var(--border);
+			margin-left: .5rem;
+			padding-left: 1rem;
+			padding-top: 0;
+		}
+
+		.accordion-content p {
+			margin: 0 0 .75rem 0;
+			color: var(--muted);
+			font-size: .95rem;
+			line-height: 1.55;
+		}
+
+		/* Expanded state controlled by aria-expanded + JS */
+		.accordion-trigger[aria-expanded="true"]+.accordion-content {
+			max-height: 240px;
+			/* ample for 2–3 lines */
+			opacity: 1;
+			padding-top: .75rem;
+		}
+
+		/* Desktop hover also expands (progressive enhancement) */
+		@media (hover: hover) and (pointer: fine) {
+			.accordion-trigger:hover+.accordion-content {
+				max-height: 240px;
+				opacity: 1;
+				padding-top: .75rem;
+			}
+		}
+
+		/* ------------------------------- Main stage -------------------------------- */
+		.main-content {
+			position: relative;
+			width: 100%;
+			height: 100svh;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			isolation: isolate;
+		}
+
+		.circle-left {
+			position: absolute;
+			left: 0;
+			top: 50%;
+			transform: translate(-50%, -50%);
+			width: 24rem;
+			height: 24rem;
+			border-radius: 50%;
+			background: radial-gradient(closest-side, #1b1b1b 0%, #121212 60%, transparent 100%);
+			border: 1px solid var(--border);
+		}
+
+		.circle-right {
+			position: absolute;
+			right: 0;
+			top: 50%;
+			transform: translate(25%, -50%);
+			width: 20rem;
+			height: 20rem;
+			border-radius: 50%;
+			border: 2px dashed color-mix(in oklab, var(--primary) 45%, white 0%);
+			opacity: .6;
+		}
+
+		.vertical-text {
+			position: absolute;
+			left: 4rem;
+			top: 50%;
+			transform: translate(0, -50%) rotate(-90deg);
+			transform-origin: center;
+			font-size: clamp(2rem, 6vw, 3.5rem);
+			font-weight: 800;
+			letter-spacing: .14em;
+			text-transform: uppercase;
+			color: var(--grid-ink);
+			white-space: nowrap;
+			opacity: .9;
+		}
+
+		.geometric-container {
+			position: relative;
+			z-index: 10;
+		}
+
+		.geometric-object {
+			position: relative;
+			width: 12rem;
+			height: 16rem;
+			background: #0e0e0e;
+			transform: rotate(12deg);
+			box-shadow: 0 25px 50px -12px rgba(0, 0, 0, .65);
+			border-radius: 10px;
+			overflow: hidden;
+			border: 1px solid var(--border);
+		}
+
+		.geo-layer-1 {
+			position: absolute;
+			inset: 0;
+			background: var(--accent);
+			transform: skewX(-12deg) skewY(6deg);
+			opacity: .9;
+			mix-blend-mode: screen;
+		}
+
+		.geo-layer-2 {
+			position: absolute;
+			inset: 0;
+			background: #1c1c1c;
+			transform: skewX(6deg) skewY(-3deg) translateX(1rem);
+			opacity: .9;
+			mix-blend-mode: multiply;
+		}
+
+		.geo-layer-3 {
+			position: absolute;
+			inset: 0;
+			background: #101010;
+			transform: skewX(-6deg) skewY(12deg) translateY(.5rem);
+			opacity: .95;
+		}
+
+		.geo-triangle {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translate(-50%, -1rem);
+			width: 0;
+			height: 0;
+			border-left: 12px solid transparent;
+			border-right: 12px solid transparent;
+			border-bottom: 16px solid var(--primary);
+			filter: drop-shadow(0 6px 14px rgba(254, 74, 2, .35));
+		}
+
+		.dot-pattern {
+			position: absolute;
+			left: 33%;
+			top: 33%;
+			display: grid;
+			grid-template-columns: repeat(8, 1fr);
+			gap: .25rem;
+		}
+
+		.dot {
+			width: .25rem;
+			height: .25rem;
+			background: #2f2f2f;
+			border-radius: 50%;
+		}
+
+		.x-mark {
+			position: absolute;
+			color: var(--primary);
+			font-size: 1.25rem;
+			font-weight: 800;
+			letter-spacing: .1em;
+			text-transform: uppercase;
+		}
+
+		.x-mark.top {
+			top: 4rem;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+
+		.x-mark.bottom {
+			bottom: 5rem;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+
+		.digital-label {
+			position: absolute;
+			right: 4rem;
+			top: 50%;
+			transform: translateY(-50%) rotate(90deg);
+			border: 2px solid var(--primary);
+			padding: 2rem 1rem;
+			border-radius: 12px;
+			background: rgba(254, 74, 2, .05);
+		}
+
+		.digital-label span {
+			color: var(--primary);
+			font-family: var(--font-headline);
+			font-size: .82rem;
+			font-weight: 800;
+			letter-spacing: .22em;
+			text-transform: uppercase;
+		}
+
+		.dotted-line {
+			position: absolute;
+			height: 1px;
+			border-top: 2px dashed color-mix(in oklab, var(--primary) 45%, white 0%);
+			opacity: .65;
+		}
+
+		.dotted-line.line-1 {
+			top: 25%;
+			right: 25%;
+			width: 8rem;
+			transform: rotate(45deg);
+		}
+
+		.dotted-line.line-2 {
+			bottom: 33%;
+			left: 33%;
+			width: 6rem;
+			transform: rotate(-12deg);
+		}
+
+		/* Bottom copy */
+		.bottom-text {
+			position: absolute;
+			bottom: 4rem;
+			left: 2rem;
+			max-width: 36rem;
+		}
+
+		.bottom-text h2 {
+			font-family: var(--font-headline);
+			font-size: clamp(1rem, 1.8vw, 1.25rem);
+			font-weight: 800;
+			letter-spacing: .14em;
+			margin: 0 0 .75rem 0;
+			text-transform: uppercase;
+			color: var(--grid-ink);
+		}
+
+		.bottom-text p {
+			color: var(--muted);
+			font-size: .98rem;
+			letter-spacing: .02em;
+			line-height: 1.6;
+			margin: 0;
+		}
+
+		/* Portfolio grid */
+		.portfolio-grid {
+			position: absolute;
+			bottom: 4rem;
+			right: 2rem;
+		}
+
+		.grid-container {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: .75rem;
+			margin-bottom: 1rem;
+		}
+
+		.grid-item {
+			width: 5rem;
+			height: 5rem;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			transition: all .25s ease;
+			border-radius: 12px;
+			user-select: none;
+			text-decoration: none;
+		}
+
+		.grid-item span {
+			color: #fff;
+			font-family: var(--font-headline);
+			font-size: .8rem;
+			font-weight: 800;
+			letter-spacing: .12em;
+			transition: transform .25s ease;
+			text-transform: uppercase;
+		}
+
+		.grid-item:hover span {
+			transform: scale(1.08);
+		}
+
+		.grid-item.web {
+			background: #1d1d1d;
+			border: 1px solid var(--border);
+		}
+
+		.grid-item.web:hover {
+			background: var(--primary);
+			border-color: transparent;
+		}
+
+		.grid-item.ai {
+			background: var(--primary);
+		}
+
+		.grid-item.ai:hover {
+			background: #1d1d1d;
+			border: 1px solid var(--border);
+		}
+
+		.grid-item.brand {
+			background: var(--accent);
+		}
+
+		.grid-item.brand:hover {
+			filter: brightness(1.08);
+		}
+
+		.grid-item.code {
+			background: var(--bg-elev);
+			border: 2px solid #2b2b2b;
+		}
+
+		.grid-item.code span {
+			color: var(--grid-ink);
+		}
+
+		.grid-item.code:hover {
+			background: #1d1d1d;
+			border-color: var(--primary);
+		}
+
+		.grid-item.code:hover span {
+			color: #fff;
+		}
+
+		.grid-label {
+			text-align: center;
+			color: var(--muted);
+			font-size: .75rem;
+			letter-spacing: .12em;
+			text-transform: uppercase;
+		}
 
 		/* Footer */
-		footer {
-			border-top: 1px solid var(--border); display: grid; place-items: center; gap: .5rem;
-			padding: 18px 12px 22px; color: var(--muted); text-align: center; z-index: 2;
-			background: color-mix(in oklab, var(--bg) 92%, transparent);
-		}
-		.urgency { color: var(--fg); font-weight: 600 }
-		.urgency a { color: var(--primary); text-decoration: underline dotted transparent }
-		.urgency a:hover { text-decoration-color: var(--primary) }
-
-		/* Background Slogans Grid */
-		.grid-wrapper {
-			position: absolute; inset: 0; z-index: 1; pointer-events: none; user-select: none;
-			display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; color: var(--grid-ink);
-			opacity: .18; mix-blend-mode: screen; padding: 6rem 1rem 4rem;
-			mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, .7) 8%, rgba(0, 0, 0, .9) 50%, rgba(0, 0, 0, .7) 92%, transparent 100%);
-		}
-		.column { display: flex; flex-direction: column; padding: .5rem }
-		.flex-container { display: flex; flex-direction: column; justify-content: space-between; height: 100% }
-		.top-container, .bottom-container { display: flex; justify-content: space-between; gap: .75rem }
-		.top-left, .top-right, .bottom-left, .bottom-right {
-			font-family: var(--font-headline); font-weight: 600;
-			font-size: clamp(.7rem, .8vw, .95rem); line-height: 1.25; max-width: 45%;
-			letter-spacing: .005em; text-wrap: balance;
-			text-shadow: 0 0 1px color-mix(in oklab, var(--grid-ink) 85%, transparent);
-		}
-		.top-right { transform: rotate(90deg) translateY(-8px); transform-origin: left top; opacity: .9 }
-
-		/* Centerpiece Message */
-		.middle-text {
-			position: absolute; inset: 0; display: grid; place-items: center;
-			font-family: var(--font-headline); font-weight: 800; letter-spacing: -.03em;
-			font-size: clamp(48px, 12vw, 180px); color: var(--primary); opacity: .12;
-			text-align: center; text-wrap: balance; line-height: .95;
-			text-shadow: 0 0 18px rgba(254, 74, 2, .07);
+		.footer {
+			position: absolute;
+			bottom: 1rem;
+			left: 50%;
+			transform: translateX(-50%);
+			color: var(--muted);
+			font-size: .85rem;
+			letter-spacing: .02em;
+			text-align: center;
+			white-space: nowrap;
 		}
 
-		/* Corner marks */
-		.corner { position: absolute; width: 18px; height: 18px; color: var(--grid-ink-soft); opacity: .85 }
-		.c-top-left { top: 18px; left: 18px; transform: translate(-50%, -50%) }
-		.c-top-right { top: 18px; right: 18px; transform: translate(50%, -50%) rotate(90deg) }
-		.c-bottom-left { bottom: 18px; left: 18px; transform: translate(-50%, 50%) rotate(-90deg) }
-		.c-bottom-right { bottom: 18px; right: 18px; transform: translate(50%, 50%) rotate(180deg) }
-
-		/* Loader (behind content, optional) */
-		.hero-loader-logo {
-			position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%);
-			background: var(--vscode-panel-background); width: 192px; height: 192px; z-index: -10;
-			border-radius: 12px; overflow: hidden;
-		}
-		.hero-loader-logo-fill {
-			--shimmer-1: var(--vscode-panel-border);
-			--shimmer-2: var(--vscode-text-separator-foreground);
-			width: 100%; height: 100%;
-			-webkit-mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 192 192" fill="none" stroke-width="1" stroke="white" xmlns="http://www.w3.org/2000/svg"><path d="M28 168c0-6.627 5.373-12 12-12h64c6.628 0 12 5.373 12 12s-5.372 12-12 12H40c-6.627 0-12-5.373-12-12ZM104 132c0-6.627 5.373-12 12-12h12c6.627 0 12 5.373 12 12s-5.373 12-12 12h-12c-6.627 0-12-5.373-12-12ZM56 132c0-6.627 5.372-12 12-12h12c6.627 0 12 5.373 12 12s-5.373 12-12 12H68c-6.628 0-12-5.373-12-12ZM84 96c0-6.627 5.373-12 12-12h28c6.627 0 12 5.373 12 12s-5.373 12-12 12H96c-6.627 0-12-5.373-12-12ZM148 96c0-6.627 5.373-12 12-12 6.628 0 12 5.373 12 12s-5.372 12-12 12c-6.627 0-12-5.373-12-12ZM56 60c0-6.627 5.372-12 12-12h64c6.627 0 12 5.373 12 12s-5.373 12-12 12H68c-6.628 0-12-5.373-12-12ZM64 24c0-6.627 5.373-12 12-12h28c6.628 0 12 5.373 12 12s-5.372 12-12 12H76c-6.627 0-12-5.373-12-12ZM28 24c0-6.627 5.373-12 12-12 6.628 0 12 5.373 12 12s-5.372 12-12 12c-6.627 0-12-5.373-12-12Z"/></svg>');
-			mask: url('data:image/svg+xml;utf8,<svg viewBox="0 0 192 192" fill="none" stroke-width="1" stroke="white" xmlns="http://www.w3.org/2000/svg"><path d="M28 168c0-6.627 5.373-12 12-12h64c6.628 0 12 5.373 12 12s-5.372 12-12 12H40c-6.627 0-12-5.373-12-12ZM104 132c0-6.627 5.373-12 12-12h12c6.627 0 12 5.373 12 12s-5.373 12-12 12h-12c-6.627 0-12-5.373-12-12ZM56 132c0-6.627 5.372-12 12-12h12c6.627 0 12 5.373 12 12s-5.373 12-12 12H68c-6.628 0-12-5.373-12-12ZM84 96c0-6.627 5.373-12 12-12h28c6.627 0 12 5.373 12 12s-5.373 12-12 12H96c-6.627 0-12-5.373-12-12ZM148 96c0-6.627 5.373-12 12-12 6.628 0 12 5.373 12 12s-5.372 12-12 12c-6.627 0-12-5.373-12-12ZM56 60c0-6.627 5.372-12 12-12h64c6.627 0 12 5.373 12 12s-5.373 12-12 12H68c-6.628 0-12-5.373-12-12ZM64 24c0-6.627 5.373-12 12-12h28c6.628 0 12 5.373 12 12s-5.372 12-12 12H76c-6.627 0-12-5.373-12-12ZM28 24c0-6.627 5.373-12 12-12 6.628 0 12 5.373 12 12s-5.372 12-12 12c-6.627 0-12-5.373-12-12Z"/></svg>');
-			background: linear-gradient(135deg,
-					transparent 0, transparent 21%,
-					var(--shimmer-2) 22%, var(--shimmer-2) 24%,
-					var(--shimmer-1) 33%, var(--shimmer-1) 61%,
-					var(--shimmer-2) 62%, var(--shimmer-2) 64%,
-					var(--shimmer-1) 73%, var(--shimmer-1) 100%);
-			background-size: 500% 500%;
-			background-position: 50% 50%;
-			background-repeat: no-repeat;
-			animation: hero-loader-shimmer-enter 1.5s ease .5s backwards, hero-loader-shimmer-loading 1.25s ease 1.5s infinite;
-		}
-		body.capra .hero-loader-logo-fill {
-			--shimmer-1: color-mix(in srgb, var(--vscode-foreground) 5%, transparent);
-			--shimmer-2: color-mix(in srgb, var(--vscode-foreground) 12%, transparent);
-		}
-		@keyframes hero-loader-shimmer-enter { from { opacity: 0; transform: scale(.98) } to { opacity: 1; transform: scale(1) } }
-		@keyframes hero-loader-shimmer-loading {
-			0% { background-position: 50% 50% }
-			50% { background-position: 0% 0% }
-			100% { background-position: 50% 50% }
+		/* Side decoration */
+		.side-decoration {
+			position: absolute;
+			left: 2rem;
+			top: 50%;
+			transform: translateY(-50%);
+			display: flex;
+			flex-direction: column;
+			gap: .5rem;
 		}
 
-		/* Noise overlay */
-		#fx-noise { position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: .35; mix-blend-mode: soft-light }
+		.side-line {
+			width: 2px;
+			height: 1rem;
+			border-radius: 2px;
+		}
+
+		.side-line.orange {
+			background: var(--primary);
+		}
+
+		.side-line.gray {
+			background: #2f2f2f;
+		}
+
+		/* Motion preferences */
+		@media (prefers-reduced-motion: reduce) {
+			* {
+				animation: none !important;
+				transition: none !important;
+				scroll-behavior: auto !important;
+			}
+		}
 
 		/* Responsive */
-		@media (max-width:1024px) {
-			body { overflow: auto }
-			.grid-wrapper { grid-template-columns: 1fr; gap: .5rem; padding: 4rem .5rem 3rem }
-			.top-right { transform: none }
-			.top-left, .top-right, .bottom-left, .bottom-right { max-width: 100% }
-			.middle-text { opacity: .10 }
+		@media (max-width: 768px) {
+			.vertical-text {
+				left: 2rem;
+			}
+
+			.digital-label {
+				right: 2rem;
+			}
+
+			.bottom-text {
+				left: 1rem;
+				right: 1rem;
+				max-width: calc(100% - 2rem);
+			}
+
+			.portfolio-grid {
+				right: 1rem;
+			}
+
+			.circle-left,
+			.circle-right {
+				width: 16rem;
+				height: 16rem;
+			}
+
+			.geometric-object {
+				width: 8rem;
+				height: 12rem;
+			}
 		}
 
-		/* Reduced motion */
-		@media (prefers-reduced-motion:reduce) { .dot, .icon-btn { transition: none } }
+		/* Utility to lock scroll when modal is open */
+		.no-scroll {
+			overflow: hidden;
+		}
 	</style>
-
-	<!-- Structured Data (AI-first, multi-entity JSON-LD) -->
-	<script type="application/ld+json">
-	[
-	  {
-	    "@context": "https://schema.org",
-	    "@type": ["Organization","LocalBusiness"],
-	    "@id": "https://brittek.io/#org",
-	    "name": "Brittek Digital",
-	    "legalName": "Brittek Digital Pty Ltd",
-	    "identifier": "ABN 77 481 837 020",
-	    "url": "https://brittek.io/",
-            "logo": "https://assets.codepen.io/9806267/2_5.png",
-            "image": "https://assets.codepen.io/9806267/2_5.png",
-	    "slogan": "AI automation, premium web, and brand systems — built for growth.",
-	    "founder": { "@type": "Person", "name": "James L. Britton" },
-	    "address": {
-	      "@type": "PostalAddress",
-	      "streetAddress": "Level 35, Tower One, International Towers, 100 Barangaroo Ave",
-	      "addressLocality": "Sydney",
-	      "addressRegion": "NSW",
-	      "postalCode": "2000",
-	      "addressCountry": "AU"
-	    },
-	    "areaServed": ["AU","NZ","US","UK"],
-	    "telephone": "+61 2 8114 4502",
-            "email": "info@brittek.digital",
-	    "sameAs": [
-	      "https://www.linkedin.com/company/brittek-digital",
-	      "https://x.com/brittekdigital",
-	      "https://github.com/brittek-digital"
-	    ],
-	    "brand": { "@type": "Brand", "name": "Brittek Digital", "color": "#FE4A02" },
-	    "knowsAbout": [
-	      "AI automation","LLM orchestration","Web design","Next.js","Headless CMS",
-	      "Brand identity","Design systems","Shopify","SEO","Performance engineering"
-	    ],
-	    "contactPoint": [
-	      {
-	        "@type": "ContactPoint",
-	        "contactType": "Sales",
-                "email": "info@brittek.digital",
-	        "telephone": "+61 2 8114 4502",
-	        "areaServed": "AU",
-	        "availableLanguage": ["en"],
-	        "hoursAvailable": {
-	          "@type": "OpeningHoursSpecification",
-	          "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
-	          "opens": "09:00",
-	          "closes": "18:00"
-	        }
-	      }
-	    ]
-	  },
-	  {
-	    "@context": "https://schema.org",
-	    "@type": "WebSite",
-	    "@id": "https://brittek.io/#website",
-	    "url": "https://brittek.io/",
-	    "name": "Brittek Digital",
-	    "inLanguage": "en-AU",
-	    "potentialAction": {
-	      "@type": "SearchAction",
-	      "target": "https://brittek.io/search?q={query}",
-	      "query-input": "required name=query"
-	    }
-	  },
-	  {
-	    "@context": "https://schema.org",
-	    "@type": "OfferCatalog",
-	    "@id": "https://brittek.io/#catalog",
-	    "name": "Brittek Digital Core Services",
-	    "url": "https://brittek.io/services",
-	    "itemListElement": [
-	      {
-	        "@type": "OfferCatalog",
-	        "name": "AI Automation",
-	        "itemListElement": [
-	          {
-	            "@type": "Offer",
-	            "priceCurrency": "AUD",
-	            "url": "https://brittek.io/services/ai-automation",
-	            "itemOffered": {
-	              "@type": "Service",
-	              "name": "AI Automation & Agents",
-	              "serviceType": "LLM orchestration, workflow automation, RPA",
-	              "provider": { "@id": "https://brittek.io/#org" },
-	              "areaServed": "Global",
-	              "termsOfService": "https://brittek.io/terms"
-	            }
-	          }
-	        ]
-	      },
-	      {
-	        "@type": "OfferCatalog",
-	        "name": "Web Design & Development",
-	        "itemListElement": [
-	          {
-	            "@type": "Offer",
-	            "priceCurrency": "AUD",
-	            "url": "https://brittek.io/services/web",
-	            "itemOffered": {
-	              "@type": "Service",
-	              "name": "Responsive Web & Headless",
-	              "serviceType": "Next.js, performance engineering, accessibility",
-	              "provider": { "@id": "https://brittek.io/#org" }
-	            }
-	          }
-	        ]
-	      },
-	      {
-	        "@type": "OfferCatalog",
-	        "name": "Brand / Visual Identity",
-	        "itemListElement": [
-	          {
-	            "@type": "Offer",
-	            "priceCurrency": "AUD",
-	            "url": "https://brittek.io/services/brand",
-	            "itemOffered": {
-	              "@type": "Service",
-	              "name": "Brand & Visual Systems",
-	              "serviceType": "Identity, design systems, guidelines",
-	              "provider": { "@id": "https://brittek.io/#org" }
-	            }
-	          }
-	        ]
-	      },
-	      {
-	        "@type": "OfferCatalog",
-	        "name": "Software & Technology",
-	        "itemListElement": [
-	          {
-	            "@type": "Offer",
-	            "priceCurrency": "AUD",
-	            "url": "https://brittek.io/services/software",
-	            "itemOffered": {
-	              "@type": "Service",
-	              "name": "Custom Software",
-	              "serviceType": "Integration, data pipelines, internal tools",
-	              "provider": { "@id": "https://brittek.io/#org" }
-	            }
-	          }
-	        ]
-	      }
-	    ]
-	  },
-	  {
-	    "@context": "https://schema.org",
-	    "@type": "FAQPage",
-	    "@id": "https://brittek.io/#faq",
-	    "mainEntity": [
-	      {
-	        "@type": "Question",
-	        "name": "Do you work internationally?",
-	        "acceptedAnswer": {
-	          "@type": "Answer",
-	          "text": "Yes. We deliver remotely across AU/NZ/US/UK and align to your timezone for critical milestones."
-	        }
-	      },
-	      {
-	        "@type": "Question",
-	        "name": "How do you price AI automation?",
-	        "acceptedAnswer": {
-	          "@type": "Answer",
-	          "text": "Discovery sprints, fixed-scope packages, or retainers. Delivery blends fixed outcomes with iterative improvements."
-	        }
-	      }
-	    ]
-	  }
-	]
-	</script>
 </head>
 
 <body>
-	<div class="page">
-		<!-- Background slogans -->
-		<div class="grid-wrapper" aria-hidden="true">
-			<!-- Column 1 -->
-			<div class="column">
-				<div class="flex-container">
-					<div class="top-container">
-						<div class="top-left">Web design isn’t decoration.</div>
-						<div class="top-right">It’s strategy.</div>
-					</div>
-					<div class="bottom-container">
-						<div class="bottom-left">AI is redefining digital.<br />But vision still defines value.</div>
-						<div class="bottom-right">Every pixel has purpose.<br />Every line of code must serve.</div>
-					</div>
-				</div>
-			</div>
-			<!-- Column 2 -->
-			<div class="column">
-				<div class="flex-container">
-					<div class="top-container">
-						<div class="top-left">Adapt. Automate.</div>
-						<div class="top-right">Build systems that scale with you.</div>
-					</div>
-					<div class="bottom-container">
-						<div class="bottom-left">Less friction.<br />More impact.</div>
-						<div class="bottom-right">Human-first experiences.<br />Tech that works quietly.</div>
-					</div>
-				</div>
-			</div>
-			<!-- Column 3 -->
-			<div class="column">
-				<div class="flex-container">
-					<div class="top-container">
-						<div class="top-left">Every project.</div>
-						<div class="top-right">A launchpad for growth.</div>
-					</div>
-					<div class="bottom-container">
-						<div class="bottom-left">Brand is memory.</div>
-						<div class="bottom-right">Design creates it.</div>
-					</div>
-				</div>
-			</div>
+	<noscript>
+		<style>
+			.modal {
+				display: none !important
+			}
+		</style>
+		JavaScript is required for interactive features on this page.
+	</noscript>
 
-			<!-- Centerpiece -->
-			<div class="middle-text">
-				<p style="margin:0">The future isn’t coming.<br />We’re already building it.</p>
+	<div class="container" id="root">
+		<!-- Top Navigation -->
+		<button class="nav-button left" id="menuButton" type="button" aria-haspopup="dialog" aria-controls="menuModal" aria-expanded="false">
+			Menu
+		</button>
 
-				<!-- Corners -->
-				<div class="corner c-top-left" aria-hidden="true">
-					<svg width="18" height="18" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="corner">
-						<polygon points="448,224 288,224 288,64 224,64 224,224 64,224 64,288 224,288 224,448 288,448 288,288 448,288" fill="currentColor" />
-					</svg>
+		<button class="nav-button right" id="shareButton" type="button" aria-haspopup="dialog" aria-controls="shareModal" aria-expanded="false">
+			Share
+		</button>
+
+		<!-- Share Modal -->
+		<div id="shareModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="shareTitle" aria-hidden="true">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 id="shareTitle" class="modal-title font-head">Share</h2>
+					<button class="close-button" type="button" data-close="shareModal" aria-label="Close share dialog">✕</button>
 				</div>
-                                <div class="corner c-top-right" aria-hidden="true">
-                                        <svg width="18" height="18" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="corner">
-                                                <polygon points="448,224 288,224 288,64 224,64 224,224 64,224 64,288 224,288 224,448 288,448 288,288 448,288" fill="currentColor" />
-                                        </svg>
-				</div>
-				<div class="corner c-bottom-left" aria-hidden="true">
-					<svg width="18" height="18" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="corner">
-						<polygon points="448,224 288,224 288,64 224,64 224,224 64,224 64,288 224,288 224,448 288,448 288,288 448,288" fill="currentColor" />
-					</svg>
-				</div>
-				<div class="corner c-bottom-right" aria-hidden="true">
-					<svg width="18" height="18" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="corner">
-						<polygon points="448,224 288,224 288,64 224,64 224,224 64,224 64,288 224,288 224,448 288,448 288,288 448,288" fill="currentColor" />
-					</svg>
+				<div class="modal-list">
+					<button class="modal-item accordion-trigger" type="button" aria-expanded="false" aria-controls="share-x">
+						<h3>X (Twitter)</h3>
+						<p>Post the current page</p>
+					</button>
+					<div id="share-x" class="accordion-content" hidden>
+						<p>Open an X share dialog pre-filled with the current page title and URL.</p>
+					</div>
+
+					<button class="modal-item accordion-trigger" type="button" aria-expanded="false" aria-controls="share-li">
+						<h3>LinkedIn</h3>
+						<p>Share professionally</p>
+					</button>
+					<div id="share-li" class="accordion-content" hidden>
+						<p>Share this page on your LinkedIn feed to reach your professional network.</p>
+					</div>
+
+					<button class="modal-item accordion-trigger" type="button" aria-expanded="false" aria-controls="share-fb">
+						<h3>Facebook</h3>
+						<p>Share socially</p>
+					</button>
+					<div id="share-fb" class="accordion-content" hidden>
+						<p>Publish the link to your Facebook timeline or share via Messenger.</p>
+					</div>
+
+					<button class="modal-item accordion-trigger" type="button" aria-expanded="false" aria-controls="share-copy">
+						<h3>Copy Link</h3>
+						<p>Copy the direct URL</p>
+					</button>
+					<div id="share-copy" class="accordion-content" hidden>
+						<p>Copies the page URL to your clipboard for quick pasting anywhere.</p>
+					</div>
 				</div>
 			</div>
 		</div>
 
-		<!-- Header (brand) -->
-		<header role="banner" aria-label="Site header">
-                        <a class="brand font-headline" href="/" aria-label="Brittek Digital — Home">
-                                <img
-                                        class="brand-logo"
-                                        src="https://assets.codepen.io/9806267/2_5.png"
-                                        alt="Brittek Digital Monogram"
-                                        width="120"
-                                        height="120"
-                                        decoding="async"
-                                />
-                                <span>Brittek Digital</span>
-                        </a>
-			<div aria-hidden="true" style="font-size:.9rem;color:var(--muted)">Sydney, Australia</div>
-		</header>
-
-		<!-- Main -->
-		<main id="content" role="main">
-			<section class="panel" aria-labelledby="status-heading">
-				<h1 id="status-heading">Platform under refinement — not downtime.</h1>
-				<p class="lead">Strategic evolution. Brief interlude. Full functionality resuming.</p>
-                                <p class="micro">Enquiries: <a href="mailto:info@brittek.digital">info@brittek.digital</a></p>
-
-				<div class="actions" role="group" aria-label="Social links">
-					<!-- LinkedIn -->
-					<a class="icon-btn" href="https://linkedin.com/company/brittekdigital" target="_blank" rel="noopener" aria-label="LinkedIn">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-							<title>LinkedIn</title>
-							<path d="M19 3A2 2 0 0 1 21 5V19A2 2 0 0 1 19 21H5A2 2 0 0 1 3 19V5A2 2 0 0 1 5 3H19M18.5 18.5V13.2A3.26 3.26 0 0 0 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17A1.4 1.4 0 0 1 15.71 13.57V18.5H18.5M6.88 8.56A1.68 1.68 0 0 0 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19A1.69 1.69 0 0 0 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56M8.27 18.5V10.13H5.5V18.5H8.27Z" />
-						</svg>
-					</a>
-
-					<!-- Instagram -->
-					<a class="icon-btn" href="https://instagram.com/brittekdgtl" target="_blank" rel="noopener" aria-label="Instagram">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-							<title>Instagram</title>
-							<path d="M7.8,2H16.2C19.4,2 22,4.6 22,7.8V16.2A5.8,5.8 0 0,1 16.2,22H7.8C4.6,22 2,19.4 2,16.2V7.8A5.8,5.8 0 0,1 7.8,2M7.6,4A3.6,3.6 0 0,0 4,7.6V16.4C4,18.39 5.61,20 7.6,20H16.4A3.6,3.6 0 0,0 20,16.4V7.6C20,5.61 18.39,4 16.4,4H7.6M17.25,5.5A1.25,1.25 0 0,1 18.5,6.75A1.25,1.25 0 0,1 17.25,8A1.25,1.25 0 0,1 16,6.75A1.25,1.25 0 0,1 17.25,5.5M12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9Z" />
-						</svg>
-					</a>
-
-					<!-- GitHub -->
-					<a class="icon-btn" href="https://github.com/brittek" target="_blank" rel="noopener" aria-label="GitHub">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-							<title>GitHub</title>
-							<path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z" />
-						</svg>
-					</a>
-
-					<!-- Email -->
-                                        <a class="icon-btn" href="mailto:info@brittek.digital" aria-label="Email us">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-							<title>Email</title>
-							<path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z" />
-						</svg>
-					</a>
+		<!-- Menu Modal -->
+		<div id="menuModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="menuTitle" aria-hidden="true">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h2 id="menuTitle" class="modal-title font-head">Navigation</h2>
+					<button class="close-button" type="button" data-close="menuModal" aria-label="Close menu dialog">✕</button>
 				</div>
-			</section>
+
+				<div class="modal-list" id="menuAccordion" role="list">
+					<!-- ABOUT -->
+					<button class="modal-item accordion-trigger" type="button" aria-expanded="false" aria-controls="acc-about">
+						<h3>About</h3>
+						<p>Our mission, vision, and approach</p>
+					</button>
+					<div id="acc-about" class="accordion-content" hidden role="region" aria-label="About details">
+						<p>Brittek Digital, est. 2018 — a Sydney-based team delivering precision web experiences, AI automation, and brand systems. Outcome-first. Security-aware. Performance-obsessed.</p>
+					</div>
+
+					<!-- SERVICES -->
+					<button class="modal-item accordion-trigger" type="button" aria-expanded="false" aria-controls="acc-services">
+						<h3>Services</h3>
+						<p>Web design, AI automation, custom software</p>
+					</button>
+					<div id="acc-services" class="accordion-content" hidden role="region" aria-label="Services details">
+						<p>End-to-end delivery: responsive design, Next.js/TypeScript builds, AI workflows and RPA, brand/visual identity, integrations, and scalable platforms engineered for speed and security.</p>
+					</div>
+
+					<!-- PROJECTS -->
+					<button class="modal-item accordion-trigger" type="button" aria-expanded="false" aria-controls="acc-projects">
+						<h3>Projects</h3>
+						<p>Case studies and portfolio work</p>
+					</button>
+					<div id="acc-projects" class="accordion-content" hidden role="region" aria-label="Projects details">
+						<p>A selection of high-performance sites, automation deployments, and identity systems — benchmarked, measured, and iterated for real-world results.</p>
+					</div>
+
+					<!-- INSIGHTS -->
+					<button class="modal-item accordion-trigger" type="button" aria-expanded="false" aria-controls="acc-insights">
+						<h3>Insights</h3>
+						<p>Technical articles and industry perspectives</p>
+					</button>
+					<div id="acc-insights" class="accordion-content" hidden role="region" aria-label="Insights details">
+						<p>Written for operators: SOPs, playbooks, optimization guides, and hard data from the field — no fluff, just what ships.</p>
+					</div>
+
+					<!-- CONTACT -->
+					<button class="modal-item accordion-trigger" type="button" aria-expanded="false" aria-controls="acc-contact">
+						<h3>Contact</h3>
+						<p>info@brittek.digital — Sydney, Australia</p>
+					</button>
+					<div id="acc-contact" class="accordion-content" hidden role="region" aria-label="Contact details">
+						<p>Email <strong>info@brittek.digital</strong>. Barangaroo, Sydney. ABN 77 481 837 020. We operate globally with local precision.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Main Content -->
+		<main class="main-content" role="main" aria-label="Brittek Digital geometric showcase">
+			<div class="circle-left" aria-hidden="true"></div>
+			<div class="circle-right" aria-hidden="true"></div>
+			<div class="vertical-text font-head" aria-hidden="true">BRITTEK</div>
+
+			<div class="geometric-container" aria-hidden="true">
+				<div class="geometric-object">
+					<div class="geo-layer-1"></div>
+					<div class="geo-layer-2"></div>
+					<div class="geo-layer-3"></div>
+					<div class="geo-triangle"></div>
+				</div>
+			</div>
+
+			<!-- Dotted Pattern (8x8) -->
+			<div class="dot-pattern" aria-hidden="true">
+				<!-- 64 dots -->
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+				<div class="dot"></div>
+			</div>
+
+			<div class="x-mark top" aria-hidden="true">✕✕</div>
+			<div class="x-mark bottom" aria-hidden="true">✕✕</div>
+
+			<div class="digital-label" aria-hidden="true">
+				<span>Digital</span>
+			</div>
+
+			<div class="dotted-line line-1" aria-hidden="true"></div>
+			<div class="dotted-line line-2" aria-hidden="true"></div>
 		</main>
 
-		<!-- Footer -->
-		<footer role="contentinfo">
-			<div>© <span id="year"></span> Brittek Digital · Build Beyond · Sydney, Australia</div>
-			<div class="urgency">For urgency/priority contact: <a href="mailto:jim@brittek.io">jim@brittek.io</a></div>
+		<!-- Bottom Left Text -->
+		<section class="bottom-text" id="about" aria-label="Brittek mission statement">
+			<h2 class="font-head">Where Tech Meets Truth</h2>
+			<p>We’re enhancing our platform to deliver innovative web experiences, AI-driven automation, and premium branding. We’ll be back online shortly.</p>
+		</section>
 
-			<!-- Quick-access footer bar (mirrors contact) -->
-			<!--div class="container mx-auto flex flex-col md:flex-row justify-between items-center p-4 md:p-6 text-xs md:text-sm" style="padding-top:8px;gap:.5rem;">
-				<span>© <span id="year2"></span> Brittek Digital</span>
-                                <p class="micro">Enquiries: <a href="mailto:info@brittek.digital">info@brittek.digital</a></p>
+		<!-- Portfolio Grid -->
+		<nav class="portfolio-grid" aria-label="Core disciplines">
+			<div class="grid-container">
+				<a class="grid-item web" href="#services" aria-label="Web Design"><span>Web</span></a>
+				<a class="grid-item ai" href="#services" aria-label="AI Automation"><span>AI</span></a>
+				<a class="grid-item brand" href="#services" aria-label="Brand Identity"><span>Brand</span></a>
+				<a class="grid-item code" href="#projects" aria-label="Code & Engineering"><span>Code</span></a>
 			</div>
+			<p class="grid-label">Core Disciplines</p>
+		</nav>
+
+		<!-- Footer -->
+		<footer class="footer" role="contentinfo">
+			© Brittek Digital — ABN 77 481 837 020
 		</footer>
+
+		<!-- Side Decoration -->
+		<div class="side-decoration" aria-hidden="true">
+			<div class="side-line orange"></div>
+			<div class="side-line gray"></div>
+			<div class="side-line orange"></div>
+		</div>
 	</div>
 
-	<!-- SVG noise overlay -->
-	<svg id="fx-noise" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-		<filter id="grain">
-			<feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" stitchTiles="stitch" />
-			<feColorMatrix type="saturate" values="0" />
-			<feComponentTransfer>
-				<feFuncA type="table" tableValues="0 0.6" />
-			</feComponentTransfer>
-		</filter>
-		<rect width="100%" height="100%" filter="url(#grain)"></rect>
-	</svg>
-
 	<script>
-		// Year stamps
-                const y = new Date().getFullYear();
-                const yearEl = document.getElementById('year');
-                if (yearEl) {
-                        yearEl.textContent = y;
-                }
-                const year2El = document.getElementById('year2');
-                if (year2El) {
-                        year2El.textContent = y;
-                }
-                // Ensure noise SVG stretches to viewport
-                const fx = document.getElementById('fx-noise');
-                if (fx) {
-                        function sizeNoise() {
-                                fx.setAttribute('width', window.innerWidth);
-                                fx.setAttribute('height', window.innerHeight);
-                                fx.setAttribute('viewBox', `0 0 ${window.innerWidth} ${window.innerHeight}`);
-                        }
-                        sizeNoise();
-                        addEventListener('resize', sizeNoise, { passive: true });
-                }
-        </script>
+		// Utilities
+		const $ = (sel, root = document) => root.querySelector(sel);
+		const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+		const body = document.body;
+		const menuButton = $("#menuButton");
+		const shareButton = $("#shareButton");
+		const menuModal = $("#menuModal");
+		const shareModal = $("#shareModal");
+		// Focus trap
+		function trapFocus(modal) {
+			const focusable = $$(
+				'a[href], area[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+				modal
+			);
+			if (focusable.length === 0) return () => {};
+			const first = focusable[0];
+			const last = focusable[focusable.length - 1];
+
+			function handler(e) {
+				if (e.key !== "Tab") return;
+				if (e.shiftKey && document.activeElement === first) {
+					e.preventDefault();
+					last.focus();
+				} else if (!e.shiftKey && document.activeElement === last) {
+					e.preventDefault();
+					first.focus();
+				}
+			}
+			modal.addEventListener("keydown", handler);
+			return () => modal.removeEventListener("keydown", handler);
+		}
+		let releaseFocus = null;
+
+		function openModal(modal, triggerBtn) {
+			if (!modal) return;
+			modal.classList.add("active");
+			modal.removeAttribute("aria-hidden");
+			triggerBtn?.setAttribute("aria-expanded", "true");
+			body.classList.add("no-scroll");
+			const focusable = $$(
+				'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+				modal
+			).filter(el => !el.hasAttribute("disabled"));
+			(focusable[0] || modal).focus();
+			releaseFocus = trapFocus(modal);
+		}
+
+		function closeModal(modal, triggerBtn) {
+			if (!modal) return;
+			modal.classList.remove("active");
+			modal.setAttribute("aria-hidden", "true");
+			triggerBtn?.setAttribute("aria-expanded", "false");
+			body.classList.remove("no-scroll");
+			releaseFocus?.();
+			triggerBtn?.focus();
+		}
+		// Toggle handlers
+		menuButton.addEventListener("click", () => {
+			if (menuModal.classList.contains("active")) {
+				closeModal(menuModal, menuButton);
+			} else {
+				if (shareModal.classList.contains("active")) closeModal(shareModal, shareButton);
+				openModal(menuModal, menuButton);
+			}
+		});
+		shareButton.addEventListener("click", () => {
+			if (shareModal.classList.contains("active")) {
+				closeModal(shareModal, shareButton);
+			} else {
+				if (menuModal.classList.contains("active")) closeModal(menuModal, menuButton);
+				openModal(shareModal, shareButton);
+			}
+		});
+		// Close buttons (data-close attr)
+		$$("button[data-close]").forEach(btn => {
+			btn.addEventListener("click", (e) => {
+				const id = e.currentTarget.getAttribute("data-close");
+				const modal = document.getElementById(id);
+				if (modal === menuModal) closeModal(menuModal, menuButton);
+				if (modal === shareModal) closeModal(shareModal, shareButton);
+			});
+		});
+		// Click on backdrop to close
+		[menuModal, shareModal].forEach(modal => {
+			modal.addEventListener("mousedown", (e) => {
+				if (e.target === modal) {
+					if (modal === menuModal) closeModal(menuModal, menuButton);
+					if (modal === shareModal) closeModal(shareModal, shareButton);
+				}
+			});
+		});
+		// ESC to close
+		window.addEventListener("keydown", (e) => {
+			if (e.key === "Escape") {
+				if (menuModal.classList.contains("active")) closeModal(menuModal, menuButton);
+				if (shareModal.classList.contains("active")) closeModal(shareModal, shareButton);
+			}
+		});
+		// -------- Accordion behaviour (mobile tap; desktop click/hover) --------
+		const isDesktop = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+		const triggers = $$(".accordion-trigger");
+
+		function setExpanded(trigger, expanded) {
+			const content = trigger.nextElementSibling;
+			trigger.setAttribute("aria-expanded", String(expanded));
+			if (content && content.classList.contains("accordion-content")) {
+				content.hidden = !expanded;
+			}
+		}
+		// Ensure all contents are initially hidden
+		triggers.forEach(t => {
+			const c = t.nextElementSibling;
+			if (c && c.classList.contains("accordion-content")) c.hidden = true;
+		});
+		// Click toggles on all devices
+		triggers.forEach(trigger => {
+			trigger.addEventListener("click", () => {
+				const expanded = trigger.getAttribute("aria-expanded") === "true";
+				// Close others (accordion single-open) — optional. Comment out to allow multi-open.
+				triggers.forEach(t => {
+					if (t !== trigger) setExpanded(t, false);
+				});
+				setExpanded(trigger, !expanded);
+			});
+		});
+		// Desktop hover: open on mouseenter, close on mouseleave
+		if (isDesktop) {
+			triggers.forEach(trigger => {
+				trigger.addEventListener("mouseenter", () => setExpanded(trigger, true));
+				trigger.addEventListener("mouseleave", () => setExpanded(trigger, false));
+				// Also collapse when mouse leaves the content area
+				const content = trigger.nextElementSibling;
+				if (content && content.classList.contains("accordion-content")) {
+					content.addEventListener("mouseleave", () => setExpanded(trigger, false));
+					content.addEventListener("mouseenter", () => setExpanded(trigger, true));
+				}
+			});
+		}
+		// -------- Share actions --------
+		$("#btnShareX")?.addEventListener("click", () => {
+			const url = encodeURIComponent(location.href);
+			const text = encodeURIComponent(document.title);
+			window.open(`https://x.com/intent/tweet?url=${url}&text=${text}`, "_blank", "noopener");
+		});
+		$("#btnShareLinkedIn")?.addEventListener("click", () => {
+			const url = encodeURIComponent(location.href);
+			window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, "_blank", "noopener");
+		});
+		$("#btnShareFacebook")?.addEventListener("click", () => {
+			const url = encodeURIComponent(location.href);
+			window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, "_blank", "noopener");
+		});
+		$("#btnCopyLink")?.addEventListener("click", async () => {
+			try {
+				await navigator.clipboard.writeText(location.href);
+				alert("Link copied to clipboard!");
+			} catch (err) {
+				console.error("Failed to copy link:", err);
+			}
+		});
+	</script>
 </body>
+
 </html>
